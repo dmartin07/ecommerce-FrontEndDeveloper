@@ -1,6 +1,6 @@
 import styles from "./Hero.module.css"
 
-const Hero = () => {
+export const Hero = () => {
   return (
     <div className={styles.heroContainer}>
 
@@ -12,4 +12,3 @@ const Hero = () => {
   )
 }
 
-export default Hero

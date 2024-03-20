@@ -1,11 +1,39 @@
-import Hero from "../../components/ui/Hero/Hero"
+import { useEffect, useState } from "react";
+import styles from "./Home.module.css"
+import { CardProduct } from "../../components/ui/CardProduct";
+import { Hero } from "../../components/ui/Hero";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/products");
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => { 
+    getProducts();
+  },[])
+
+  console.log(products);
+  
+
   return (
     <>
-    <Hero />
-    </>
-  )
-}
+      <Hero />
+      <div className={styles.container}>
+        {products.map( (product) => (
+          <CardProduct key={product.tail} product={product}/>
+        ))}
 
-export default Home
+      </div>
+    </>
+  );
+};
+
+export default Home;
