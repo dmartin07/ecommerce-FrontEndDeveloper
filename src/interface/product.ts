@@ -24,6 +24,5 @@ export interface CartProduct {
     name: string;
     image: string;
     quantity: number;
-
-    // TODO  price
+    price: number
   }
