@@ -5,8 +5,15 @@ import { Hero } from "../../components/ui/Hero";
 import { getProducts } from "../../service";
 import { Product } from "../../interface";
 import { Toaster } from 'sonner'
+import { useQuery } from "react-query";
 
 const Home = () => {
+
+  const {data, isLoading, error} = useQuery("products", getProducts)
+
+  {/*
+    Before, not using react query
+
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true)
@@ -22,6 +29,7 @@ const Home = () => {
       setIsLoading(false)
     })
   },[])
+  */}
 
   return (
     <>
@@ -30,7 +38,7 @@ const Home = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>Something went wrong</p>}
       <div className={styles.container}>
-        {products.map( (product) => (
+        {data?.map( (product) => (
           <CardProduct key={product.tail} product={product}/>
         ))}
 
