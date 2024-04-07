@@ -5,19 +5,19 @@ export interface Product {
     head:         string;
     image:        string;
     name:         string;
-    release?:      Release;
+    release?:     string;
     tail:         string;
     type:         string;
     id?:           number;
     price:        number;
 }
 
-export interface Release {
+/*export interface Release {
     eu: string;
     jp: string;
     na: string;
     au: string;
-}
+}*/
 
 export interface CartProduct {
     id: number;

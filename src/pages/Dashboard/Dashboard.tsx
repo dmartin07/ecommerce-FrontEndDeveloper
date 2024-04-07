@@ -1,33 +1,71 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import styles from "./Dashboard.module.css"
 import { useNavigate } from "react-router-dom"
+import { useMutation } from "react-query"
+import { Product } from "../../interface"
+import { createProduct } from "../../service"
 
 const Dashboard = () => {
+
+    const [product, setProduct] = useState({
+      "amiiboSeries": "",
+      "character": "",
+      "gameSeries": "",
+      "head": "",
+      "image": "",
+      "name": "",
+      "release": "",
+      "tail": "",
+      "type": "",
+      "price": 0
+    })
 
     const navigate = useNavigate()
 
     useEffect(() => {
         const userLogin = localStorage.getItem("userLogin")
         if (!userLogin){
-            navigate("login")
+            navigate("/login")
         }
     }, [])
+
+    const handleLogout = () => {
+        localStorage.removeItem("userLogin")
+        navigate("/login")
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setProduct({
+            ...product,
+            [e.target.name] : e.target.value
+        })
+    }
+
+    const mutation = useMutation ((newProduct: Product) => {
+        return createProduct(newProduct)
+    })
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        mutation.mutate(product)
+
+    }
 
   return (
     <div className={styles.container}>
         <div>
             <h1>Dashboard</h1>
-            <button>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className={styles.formControlLogin}>
                 <label htmlFor="amiiboSeries">Amiibo Series</label>
                 <input 
                 type="text" 
                 id="amiiboSeries"
                 name="amiiboSeries"
-                value={""}
-                onChange={() => {}}
+                value={product.amiiboSeries}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -37,8 +75,8 @@ const Dashboard = () => {
                 type="text" 
                 id="character"
                 name="character"
-                value={""}
-                onChange={() => {}}
+                value={product.character}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -48,8 +86,8 @@ const Dashboard = () => {
                 type="text" 
                 id="gameSeries"
                 name="gameSeries"
-                value={""}
-                onChange={() => {}}
+                value={product.gameSeries}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -59,8 +97,8 @@ const Dashboard = () => {
                 type="text" 
                 id="head"
                 name="head"
-                value={""}
-                onChange={() => {}}
+                value={product.head}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -70,8 +108,8 @@ const Dashboard = () => {
                 type="url" 
                 id="image"
                 name="image"
-                value={""}
-                onChange={() => {}}
+                value={product.image}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -81,8 +119,8 @@ const Dashboard = () => {
                 type="text" 
                 id="name"
                 name="name"
-                value={""}
-                onChange={() => {}}
+                value={product.name}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -92,8 +130,8 @@ const Dashboard = () => {
                 type="date" 
                 id="release"
                 name="release"
-                value={""}
-                onChange={() => {}}
+                value={product.release}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -103,8 +141,8 @@ const Dashboard = () => {
                 type="text" 
                 id="tail"
                 name="tail"
-                value={""}
-                onChange={() => {}}
+                value={product.tail}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -114,8 +152,8 @@ const Dashboard = () => {
                 type="text" 
                 id="type"
                 name="type"
-                value={""}
-                onChange={() => {}}
+                value={product.type}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -125,8 +163,8 @@ const Dashboard = () => {
                 type="number" 
                 id="price"
                 name="price"
-                value={""}
-                onChange={() => {}}
+                value={product.price}
+                onChange={handleChange}
                 required
                 />
             </div>
